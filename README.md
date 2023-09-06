@@ -3,7 +3,7 @@
 
 Every request to the alpico backend needs to be authenticated by the client.  Traditional password-based schemes like
 HTTP [Basic](//tools.ietf.org/html/rfc7617) or [Digest](//tools.ietf.org/html/rfc7616) Authentication are too weak for a
-payment API.  Cryptographically stronger approaches like [HMAC](//en.wikipedia.org/wiki/HMAC) require a shared secret,
+modern API.  Cryptographically stronger approaches like [HMAC](//en.wikipedia.org/wiki/HMAC) require a shared secret,
 that must be kept secure on both ends, while still be usable frequently.  This seems to be a problem hard to solve for a
 distributed backend system.
 
