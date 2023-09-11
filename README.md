@@ -1,6 +1,8 @@
 # The Alpico Authentication Scheme v0.2
 #### Using ed25519 signatures for authenticating HTTP requests
 
+![auth.pico logo](.logo.png)
+
 Every request to the alpico backend needs to be authenticated by the client.  Traditional password-based schemes like
 HTTP [Basic](//tools.ietf.org/html/rfc7617) or [Digest](//tools.ietf.org/html/rfc7616) Authentication are too weak for a
 modern API.  Cryptographically stronger approaches like [HMAC](//en.wikipedia.org/wiki/HMAC) require a shared secret,
