@@ -224,7 +224,7 @@ print(message)
 signature = privkey.sign(message, encoder=URLSafeBase64Encoder).signature.decode()
 
 # Add the signature to the authorization header.
-authorization += ", sig=" + signature
+authorization += ", sig=" + signature.rstrip("=")
 print("Authorization:", authorization)
 ```
 
@@ -238,7 +238,7 @@ priv: 0XExclimMcQUTuPb93HU5vCxi-WFYfJ0R0-74_kz6ds=
 pub: ugx7f8f2JIqXjlxyhZcPk_Tgkc1reR_YBrKijRzAaHg=
 alpico time=1700000000+10, key=2, add=-method+-path+content-type
 b'alpico time=1700000000+10, key=2, add=-method+-path+content-type\nGET\n/\napplication/json\n{}'
-Authorization: alpico time=1700000000+10, key=2, add=-method+-path+content-type, sig=YnFDJpA4SaveWyM9Lgf4TYqdaCV2yk5eZzhq8TLFb043it9CDV-6mnca5A3iYYN87lovb5yuVKh3NhhFV_mkAg==
+Authorization: alpico time=1700000000+10, key=2, add=-method+-path+content-type, sig=YnFDJpA4SaveWyM9Lgf4TYqdaCV2yk5eZzhq8TLFb043it9CDV-6mnca5A3iYYN87lovb5yuVKh3NhhFV_mkAg
 ```
 
 
