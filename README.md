@@ -93,7 +93,7 @@ that cover a whole service or all methods on a certain resource.
 
 The mandatory `sig` parameter defines the message signature encoded as base64 in the [URL-safe
 version](//tools.ietf.org/html/rfc3548.html#section-4). This includes the 62 alphanumeric characters plus *underscore*
-and *dash*.  The padding with `equal` signs is optional.  The whole parameter is therefore between 90 and 92 characters
+and *dash*.  Any padding with `equal` signs has to be removed from this value.  The whole parameter is therefore 90 characters
 long.
 
 A valid example would be:
