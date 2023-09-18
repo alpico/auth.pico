@@ -1,4 +1,4 @@
-# The Alpico Authentication Scheme v0.2
+# The alpico Authentication Scheme v0.2
 #### Using ed25519 signatures for authenticating HTTP requests
 
 ![auth.pico logo](.logo.png)
