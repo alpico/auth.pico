@@ -175,7 +175,7 @@ The following example utilizes the [PyNaCl](//pypi.org/project/PyNaCl/) library 
 
 ### 4.1 Generating the keys
 
-```
+```python
 from nacl.signing import SigningKey
 from nacl.encoding import URLSafeBase64Encoder
 
@@ -192,7 +192,7 @@ print("pub:", privkey.verify_key.encode(URLSafeBase64Encoder).decode())
 
 ### 4.2 Defining the message
 
-```
+```python
 # message
 method = "GET"
 path = "/"
@@ -212,7 +212,7 @@ print(authorization)
 
 ### 4.3 Calculating the signature
 
-```
+```python
 # add all items together
 items = (authorization, method, path, headers.get("content-type"), body)
 
@@ -248,7 +248,7 @@ We use the following function to calculate our signatures.  The example utilizes
 top of Python v3.11, as well.
 
 
-```
+```python
 import time
 from nacl.encoding import URLSafeBase64Encoder
 
