@@ -24,12 +24,13 @@ use rand::rngs::OsRng;
 use ed25519_dalek::SigningKey;
 use ed25519_dalek::Signature;
 use reqwest_middleware::ClientBuilder;
+use ap_auth_sign_reqwest::Signer;
 
 let mut csprng = OsRng;
 let signing_key = SigningKey::generate(&mut csprng);
 
 let client = reqwest::Client::new();
-let signer = ap_auth_sign_reqwest::Signer::new(signing_key, 60);
+let signer = Signer::new(signing_key, 60);
 let client = ClientBuilder::new(client).with(signer).build();
 
 // Use client like normal reqwest client
