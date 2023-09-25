@@ -1,6 +1,6 @@
 # ap-auth-sign-reqwest
 
-Middleware implementation of the [auth.pico](https://crates.io/crates/ureq) authorization scheme for [reqwest](https://crates.io/crates/reqwest) using [reqwest-middleware](https://crates.io/crates/reqwest-middleware).
+Middleware implementation of the [auth.pico](https://github.com/alpico/auth.pico/blob/main/specification.md) authorization scheme for [reqwest](https://crates.io/crates/reqwest) using [reqwest-middleware](https://crates.io/crates/reqwest-middleware).
 
 Any sent message is automatically signed.
 
