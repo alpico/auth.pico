@@ -16,6 +16,8 @@ pub enum Error<E> {
 }
 
 /// Verify a request.
+///
+/// Returns the key number on sucess.
 pub fn verify<'a, F, G, E>(
     method: &str,
     path: &'a str,
@@ -23,7 +25,7 @@ pub fn verify<'a, F, G, E>(
     now: u64,
     get_header: F,
     get_key: G,
-) -> Result<(), Error<E>>
+) -> Result<u32, Error<E>>
 where
     F: Fn(&str) -> Option<&'a str>,
     G: FnOnce(u32) -> Result<[u8; 32], E>,
@@ -71,5 +73,6 @@ where
     // verify it
     verifykey
         .verify_strict(&message, &sig)
-        .or(Err(Error::Check))
+        .or(Err(Error::Check))?;
+    Ok(header.key)
 }
