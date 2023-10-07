@@ -67,7 +67,7 @@ pub fn sign<'a>(
     let start = now()? - time_tolerance;
     let time = format!("{start}+{}", duration + time_tolerance);
 
-    let mut headers_str = String::from("-method+-path");
+    let mut headers_str = String::new();
     let mut header_vals: Vec<u8> = format!("{method}\n{path}\n").bytes().collect();
 
     // Add further headers and their values
@@ -76,8 +76,10 @@ pub fn sign<'a>(
         header_vals.extend(value);
         header_vals.push(b'\n');
     }
-
-    let mut auth = format!("alpico time={time}, add={headers_str}");
+    let mut auth = format!("alpico time={time}");
+    if !headers_str.is_empty() {
+        auth.push_str(&format!(", add=-method+-path{headers_str}"))
+    }
     let mut message: Vec<u8> = auth.bytes().collect();
     message.push(b'\n');
     message.extend(header_vals);
