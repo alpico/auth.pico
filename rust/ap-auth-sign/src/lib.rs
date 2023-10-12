@@ -59,6 +59,7 @@ pub fn sign<'a>(
     method: &'a str,
     path: &'a str,
     body: Option<&'a [u8]>,
+    key: u32,
     duration: u64,
     time_tolerance: u64,
     privkey: &'a ed25519_dalek::SigningKey,
@@ -77,6 +78,9 @@ pub fn sign<'a>(
         header_vals.push(b'\n');
     }
     let mut auth = format!("alpico time={time}");
+    if key != 0 {
+        auth.push_str(&format!(", key={key}"));
+    }
     if !headers_str.is_empty() {
         auth.push_str(&format!(", add=-method+-path{headers_str}"))
     }

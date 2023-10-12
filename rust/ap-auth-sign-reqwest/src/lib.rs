@@ -7,6 +7,9 @@ pub struct Signer {
     /// The private key with which each message is signed
     privkey: ed25519_dalek::SigningKey,
 
+    /// The key to use for verification.
+    key: u32,
+
     /// The duration in seconds for how long each message should be valid for.
     duration: u64,
 
@@ -16,10 +19,11 @@ pub struct Signer {
 
 impl Signer {
     /// Construct a new signer. Sets [Self::time_tolerance] to `duration / 10`.
-    pub fn new(privkey: ed25519_dalek::SigningKey, duration: u64) -> Self {
+    pub fn new(privkey: ed25519_dalek::SigningKey, key: u32, duration: u64) -> Self {
         Self {
             privkey,
             duration,
+            key,
             time_tolerance: duration.div_ceil(10),
         }
     }
@@ -27,11 +31,13 @@ impl Signer {
     /// Construct a new signer.
     pub fn new_with_tolerance(
         privkey: ed25519_dalek::SigningKey,
+        key: u32,
         duration: u64,
         time_tolerance: u64,
     ) -> Self {
         Self {
             privkey,
+            key,
             duration,
             time_tolerance,
         }
@@ -56,6 +62,7 @@ impl Middleware for Signer {
             req.method().as_str(),
             req.url().path(),
             req.body().and_then(|b| b.as_bytes()),
+            self.key,
             self.duration,
             self.time_tolerance,
             &self.privkey,
