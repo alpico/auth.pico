@@ -33,11 +33,13 @@ extern "C" {
     fn date_now() -> f64;
 }
 
+/// Returns a UTC time stamp since UNIX_EPOCH.
 #[cfg(target_arch = "wasm32")]
 fn now() -> Result<u64> {
     Ok((date_now() / 1000.0) as u64)
 }
 
+/// Returns a UTC time stamp since UNIX_EPOCH.
 #[cfg(not(target_arch = "wasm32"))]
 fn now() -> Result<u64> {
     SystemTime::now()
@@ -64,7 +66,6 @@ pub fn sign<'a>(
     time_tolerance: u64,
     privkey: &'a ed25519_dalek::SigningKey,
 ) -> Result<String> {
-    // TODO UTC time
     let start = now()? - time_tolerance;
     let time = format!("{start}+{}", duration + time_tolerance);
 
