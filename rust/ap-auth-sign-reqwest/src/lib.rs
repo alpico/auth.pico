@@ -15,16 +15,20 @@ pub struct Signer {
 
     /// A tolerance in seconds which accounts for mismatches between client and sever time.
     time_tolerance: u64,
+
+    /// Whether to hash over the body as well. This should be turned off for file uploads.
+    body: bool,
 }
 
 impl Signer {
     /// Construct a new signer. Sets [Self::time_tolerance] to `duration / 10`.
-    pub fn new(privkey: ed25519_dalek::SigningKey, key: u32, duration: u64) -> Self {
+    pub fn new(privkey: ed25519_dalek::SigningKey, key: u32, duration: u64, body: bool) -> Self {
         Self {
             privkey,
             duration,
             key,
             time_tolerance: duration.div_ceil(10),
+            body,
         }
     }
 
@@ -40,8 +44,11 @@ impl Signer {
             key,
             duration,
             time_tolerance,
+            body,
         }
     }
+
+
 }
 
 #[cfg_attr(not(target_arch = "wasm32"), async_trait::async_trait)]
@@ -57,11 +64,16 @@ impl Middleware for Signer {
             .headers()
             .iter()
             .map(|(k, v)| (k.as_str(), v.as_bytes()));
+        let body = if self.body {
+            req.body().and_then(|b| b.as_bytes())
+        } else {
+            None
+        };
         let auth = ap_auth_sign::sign(
             headers,
             req.method().as_str(),
             req.url().path(),
-            req.body().and_then(|b| b.as_bytes()),
+            body,
             self.key,
             self.duration,
             self.time_tolerance,
