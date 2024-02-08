@@ -38,6 +38,7 @@ impl Signer {
         key: u32,
         duration: u64,
         time_tolerance: u64,
+        body: bool,
     ) -> Self {
         Self {
             privkey,
