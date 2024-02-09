@@ -67,8 +67,10 @@ where
         }
         message.push(b'\n');
     }
-    // always add the body
-    message.extend(body);
+    // add the body at the end
+    if !header.omit_body {
+        message.extend(body);
+    }
 
     // verify it
     verifykey

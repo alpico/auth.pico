@@ -1,4 +1,4 @@
-# The alpico Authentication Scheme v0.2
+# The alpico Authentication Scheme v0.3
 #### Using ed25519 signatures for authenticating HTTP requests
 
 ![auth.pico logo](.logo.png)
@@ -158,8 +158,8 @@ and that changes of this specification will not lead to security risks for older
 Including the body in the signature is mandatory.  To avoid various corner cases, it is added after all the headers.  In
 requests like `GET`, that do not need a body, an empty entry is still added.
 
-There might be an extension to this specification in the future, that introduces an `omit-body` parameter to relax this
-requirement.
+In the rare cases where hashing the whole body is not possible one can use the `omit=body` parameter. Note that this
+feature comes with a certain security risk as an attacker might be able to replay the request with a different body.
 
 
 

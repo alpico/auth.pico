@@ -11,6 +11,7 @@ pub struct AuthHeader {
     pub key: u32,
     pub add: Vec<String>,
     pub header: String,
+    pub omit_body: bool,
 }
 
 impl AuthHeader {
@@ -36,6 +37,9 @@ impl AuthHeader {
                 }
                 "sig" => {
                     res.sig = value.to_string();
+                }
+                "omit" => {
+                    res.omit_body = value == "body";
                 }
                 "time" => {
                     let (start, duration) = value.split_once('+').ok_or("time")?;
@@ -96,6 +100,8 @@ fn test_params() {
     assert_eq!(0, AuthHeader::new("alpico time=42+0").unwrap().duration);
     assert_eq!(12, AuthHeader::new("alpico time=42+12").unwrap().duration);
     assert_eq!(42, AuthHeader::new("alpico key=42, sig=").unwrap().key);
+    assert_eq!(false, AuthHeader::new("alpico time=1+4").unwrap().omit_body);
+    assert_eq!(true, AuthHeader::new("alpico omit=body, sig=").unwrap().omit_body);
 }
 
 #[test]
@@ -121,6 +127,6 @@ fn test_derived() {
     let mut x = AuthHeader::new("alpico add=-method+-path, sig=, time=0+0, key=0").unwrap();
     x.header = "alpico sig=".to_string();
     assert_eq!(x, AuthHeader::new("alpico sig=").unwrap());
-    // use the debug prinn
+    // use the debug print
     println!("{x:?}");
 }

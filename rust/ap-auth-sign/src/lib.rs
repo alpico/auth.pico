@@ -82,9 +82,13 @@ pub fn sign<'a>(
     if key != 0 {
         auth.push_str(&format!(", key={key}"));
     }
+    if body.is_none() {
+        auth.push_str(", omit=body");
+    }
     if !headers_str.is_empty() {
         auth.push_str(&format!(", add=-method+-path{headers_str}"))
     }
+
     let mut message: Vec<u8> = auth.bytes().collect();
     message.push(b'\n');
     message.extend(header_vals);
